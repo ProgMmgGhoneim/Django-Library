@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html'%}
+{% block content %}
+  <h1> {{author_details.name }} </h1>
+  <h5> {{author_details.data_of_birth }}</h5>
+  <h5> {{author_details.date_of_death }}</h5>
+  <h1> Books </h1>
+  {% for info in author_details.bookmodel_set.all%}
+     <a href="{{ info.get_absolute_url }}">{{ info.title }}</a>
+     <p>{{info.summary}}</p>
+  {% endfor %}
+  {% if user.is_authenticated %}
+    <hr>
+    <br>
+      User is:  {{user.get_username }}
+    <ul>
+      <li>
+        <a href="{% url 'author_update' author_details.id %}">Update</a>
+      </li>
+      <li>
+          <a href="{% url 'author_delete' author_details.id %}">Delete</a>
+      </li>
+    </ul>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!--Bootstrap -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!--Meduim Style Editor -->
+
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+    <!--Custom Css -->
+
+    <link rel="stylesheet" href="{% static 'css/catalog.css'%}">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--fonts -->
+
+    <link href="https://fonts.googleapis.com/css?family=Merriweather|Playfair+Display" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+      body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+      body, html {
+          height: 100%;
+          line-height: 1.8;
+      }
+      a{
+        font-weight: bold;
+      }
+      /* Full height image header */
+      .bgimg-1 {
+          background-position: center;
+          background-size: cover;
+          background-image: url("/w3images/mac.jpg");
+          min-height: 100%;
+      }
+      .w3-bar .w3-button {
+          padding: 16px;
+      }
+      </style>
+  </head>
+  <body>
+    <!--NAVBAR -->
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-2">
+        <ul class="sidebar-nav">
+            <li><a href="{% url 'home'%}">Home</a></li>
+            <li><a href="{% url 'book'%}"> Books </a></li>
+            <li><a href="{% url 'author'%}"> Authors </a></li>
+            <li><a href="{% url 'about_us' %}"> About US </a></li>
+            <li><a href=""> Contact US </a></li>
+            {% if user.is_authenticated %}
+             <li>User: {{ user.get_username }}</li>
+             <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+             <li><a href="{% url 'logout'%}">Logout</a></li>
+            {% else %}
+              <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+            {% endif %}
+        </ul>
+        </div>
+        <div class="col-sm-10 ">
+          {% block content %}
+
+          {% endblock %}
+          <!-- for next button -->
+          {% block pagination %}
+            {% if is_paginated %}
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                            <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                        <span class="page-current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endif %}
+          {% endblock %}
+          <!-- end of next button -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

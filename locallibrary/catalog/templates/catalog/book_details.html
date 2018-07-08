@@ -1,0 +1,35 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+  <h1>Title: {{ book_details.title }}</h1>
+  <p><strong>Author:</strong> <a href="{% url 'author'%}">{{ book_details.author }}</a></p> <!-- author detail link not yet defined -->
+  <p><strong>Summary:</strong> {{ book_details.summary }}</p>
+  <p><strong>ISBN:</strong> {{ book_details.isbn }}</p>
+  <p><strong>Language:</strong> {{ book_details.language }}</p>
+  <p><strong>Genre:</strong> {% for genre in book_details.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+
+ <div style="margin-left:20px;margin-top:20px">
+   <h4>Copies</h4>
+
+   {% for copy in book_details.bookinstancemodel_set.all %}
+   <hr>
+   <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
+   {% if copy.status != 'a' %}<p><strong>Due to be returned:</strong> {{copy.due_back}}</p>{% endif %}
+   <p><strong>Imprint:</strong> {{copy.imprint}}</p>
+   <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+   {% endfor %}
+   {% if user.is_authenticated %}
+    <hr>
+    <br>
+     User is :{{user.get_username }}
+     <ul>
+       <li>
+         <a href="{% url 'book_update' book_details.id %}">Update</a>
+       </li>
+       <li>
+         <a href="{% url 'book_delete' book_details.id  %}">Delete</a>
+       </li>
+     </ul>
+    {% endif%}
+ </div>
+
+{% endblock %}

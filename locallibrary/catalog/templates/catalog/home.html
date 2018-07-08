@@ -1,0 +1,19 @@
+{% extends 'catalog/base.html'%}
+{% block content%}
+<h1>Local Library Home</h1>
+
+<p>Welcome to <em>LocalLibrary</em></p>
+
+<h2>Dynamic content</h2>
+
+<p>The library has the following record counts:</p>
+<ul>
+  <li> Num Of Book : <b>{{num_book}}</b> </li>
+  <li> Num Of Author : <b>{{num_author}}</b> </li>
+  <li> Num Of Copies  : <b>{{num_instance}}</b> </li>
+  <li> Num Of Available copies : <b>{{num_avilable_instance}}</b> </li>
+  <li> Num Of Language  : <b>{{num_language}}</b> </li>
+  <li> Num Of Gener : <b>{{num_gener}}</b> </li>
+  <li>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</li>
+</ul>
+{% endblock%}

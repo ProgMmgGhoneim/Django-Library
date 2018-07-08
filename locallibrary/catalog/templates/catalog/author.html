@@ -1,0 +1,24 @@
+{% extends 'catalog/base.html'%}
+{% block title%}
+  Author
+{% endblock %}
+{% block content %}
+<h1> Author List :</h1>
+{% for author in author_list %}
+  <li>
+    <a href="{{ author.get_absolute_url }}"> {{author.name}}</a>
+    {{ author.data_of_birth }}
+  </li>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<hr>
+<br>
+  User is : {{user.get_username }}
+<ul>
+  <li>
+    <a href="{% url 'author_create'%}">create</a>
+  </li>
+</ul>
+{% endif %}
+{% endblock %}

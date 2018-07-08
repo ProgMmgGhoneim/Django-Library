@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html'%}
+{% block title%}
+  book
+{% endblock %}
+{% block content%}
+<h1> The Books List :</h1>
+{% if book_list %}
+  {% for book in book_list%}
+  <li>
+     <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+     ({{book.author}})
+  </li>
+  {% endfor %}
+{% else%}
+<h5> there is no Book</h5>
+{% endif %}
+{% if user.is_authenticated %}
+  User is :{{user.get_username }}
+  <ul>
+    <li>
+      <a href="{% url 'book_create' %}">create</a>
+    </li>
+  </ul>
+{% endif %}
+{% endblock%}
